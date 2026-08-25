@@ -1,0 +1,72 @@
+---
+const reviews = [
+  {
+    name: "Игорь, Московская область",
+    text: "Алексей установил газовый котёл и сделал разводку отопления в частном доме. Работает аккуратно, всё объясняет, убрал за собой. Рекомендую.",
+  },
+  {
+    name: "Марина, г. Домодедово",
+    text: "Искала сантехника для ремонта ванной. Всё сделано качественно по смете, без доплат. Приятно иметь дело с профессионалом.",
+  },
+  {
+    name: "Сергей",
+    text: "Заказывал тепловизионное обследование. Быстро нашёл все точки теплопотерь, дал понятные рекомендации по утеплению. Отличный специалист.",
+  },
+];
+---
+
+<section id="reviews" class="bg-gray-50 py-16 sm:py-20">
+  <div class="container">
+    <div class="rounded-3xl bg-white p-6 shadow-sm sm:p-10">
+      <div class="grid gap-8 lg:grid-cols-[1fr_1.4fr]">
+        <div>
+          <p class="font-semibold text-brand-600">О специалисте</p>
+          <h2 class="mt-2 text-3xl font-extrabold text-gray-900">
+            Алексей Владимирович
+          </h2>
+          <p class="mt-4 text-gray-700">
+            Монтаж отопления и водоснабжения — моя специализация. Более 15 лет
+            я выполняю профессиональный монтаж систем «под ключ» в частных
+            домах и квартирах Москвы и Московской области.
+          </p>
+          <ul class="mt-6 space-y-3 text-sm text-gray-700">
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 text-brand-600">●</span> Образование: ПТУ
+              №201, специальность «сварщик»
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 text-brand-600">●</span> Время связи:
+              ежедневно с 9:00 до 22:00
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 text-brand-600">●</span> Паспорт проверен,
+              работаю по договору и с гарантией
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 text-brand-600">●</span> Выезды в Домодедово
+              и по области
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="mb-4 flex items-center gap-3">
+            <div class="flex text-xl text-amber-500">★★★★★</div>
+            <span class="font-bold text-gray-900">4.9</span>
+            <span class="text-gray-500">• 63 оценки</span>
+          </div>
+          <div class="space-y-4">
+            {reviews.map((r) => (
+              <div
+                class="rounded-2xl border border-gray-100 bg-gray-50 p-5"
+              >
+                <div class="font-bold text-gray-900">{r.name}</div>
+                <p class="mt-2 text-sm text-gray-700">{r.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

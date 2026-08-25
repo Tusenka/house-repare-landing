@@ -1,0 +1,93 @@
+---
+interface Props {
+  formId: string;
+  buttonText?: string;
+  compact?: boolean;
+}
+
+const { formId, buttonText = "Получить консультацию", compact = false } =
+  Astro.props;
+const action = `https://formspree.io/f/${formId}`;
+---
+
+<div class="lead-form">
+  <form
+    class={compact ? "flex flex-col gap-3" : "space-y-4"}
+    data-formspree-action={action}
+  >
+    <div class={compact ? "grid gap-3 sm:grid-cols-3" : "space-y-4"}>
+      <input
+        type="text"
+        name="name"
+        required
+        placeholder="Ваше имя"
+        class="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+      />
+      <input
+        type="tel"
+        name="phone"
+        required
+        placeholder="Ваш телефон"
+        class="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 placeholder-gray-400 outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+      />
+      <button
+        type="submit"
+        class="w-full rounded-lg bg-brand-600 px-6 py-3 font-bold text-white transition hover:bg-brand-700 disabled:opacity-60"
+      >
+        {buttonText}
+      </button>
+    </div>
+    <p class="form-error hidden text-sm text-red-600">
+      Не удалось отправить заявку. Попробуйте ещё раз.
+    </p>
+    <p class="text-xs text-gray-400">
+      Нажимая кнопку, вы соглашаетесь на обработку персональных данных.
+    </p>
+  </form>
+
+  <div class="form-success hidden rounded-2xl border border-green-200 bg-green-50 p-8 text-center">
+    <h3 class="text-xl font-bold text-green-800">Спасибо! Заявка отправлена</h3>
+    <p class="mt-2 text-green-700">
+      Алексей свяжется с вами в ближайшее время с 9:00 до 22:00.
+    </p>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll(".lead-form").forEach((root) => {
+    const form = root.querySelector("form");
+    const success = root.querySelector(".form-success");
+    const errorEl = root.querySelector(".form-error");
+    if (!form) return;
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('button[type="submit"]');
+      const originalLabel = btn?.textContent;
+      errorEl?.classList.add("hidden");
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = "Отправка…";
+      }
+
+      try {
+        const data = Object.fromEntries(new FormData(form).entries());
+        const res = await fetch(form.dataset.formspreeAction || "", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error("send failed");
+        form.classList.add("hidden");
+        success?.classList.remove("hidden");
+      } catch {
+        errorEl?.classList.remove("hidden");
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = originalLabel ?? "";
+        }
+      }
+    });
+  });
+</script>

@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: "Montserrat", system-ui, -apple-system, sans-serif;
+    color: #1f2937;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer components {
+  .container {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+  }
+}
